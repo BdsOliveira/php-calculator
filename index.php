@@ -1,89 +1,17 @@
 <?php
 
-interface BasicOperaration {
-    public function calculate(): float;
-    public function getSecondNumber(): float;
-}
+include 'src/BasicOperation.php';
 
-class Subtract implements BasicOperaration {
-
-    public function __construct(
-        private ?float $firstNumber,
-        private ?float $secondNumber,
-    ) {
-    }
-
-    public function calculate(): float
-    {
-        return $this->firstNumber - $this->secondNumber;
-    }
-
-    public function getSecondNumber(): float
-    {
-        return $this->secondNumber;
-    }
-}
-
-class Multiply implements BasicOperaration {
-
-    public function __construct(
-        private ?float $firstNumber,
-        private ?float $secondNumber,
-    ) {
-    }
-
-    public function calculate(): float
-    {
-        return $this->firstNumber * $this->secondNumber;
-    }
-
-    public function getSecondNumber(): float
-    {
-        return $this->secondNumber;
-    }
-}
-
-class Divide implements BasicOperaration {
-
-    public function __construct(
-        private ?float $firstNumber,
-        private ?float $secondNumber,
-    ) {
-    }
-
-    public function calculate(): float 
-    {
-        if ($this->secondNumber == 0) return 0;
-        return $this->firstNumber / $this->secondNumber;
-    }
-
-    public function getSecondNumber(): float
-    {
-        return $this->secondNumber;
-    }
-}
+use App\BasicOperation;
 
 $firstNumber = $_POST['first_number'];
 $secondNumber = $_POST['second_number'];
 $operation = $_POST['operation'];
+if($_SERVER['REQUEST_METHOD'] == 'POST') 
+    $result = new BasicOperation($firstNumber, $secondNumber, $operation);
 
-switch ($operation) {
-    case 'add':
-        $result = new Sum(firstNumber: $firstNumber, secondNumber: $secondNumber); // Named Params in PHP 8.0
-        break;
-    case 'sub':
-        $result = new Subtract(firstNumber: $firstNumber, secondNumber: $secondNumber);
-        break;
-    case 'mult':
-        $result = new Multiply(firstNumber: $firstNumber, secondNumber: $secondNumber);
-        break;
-    case 'divi':
-        $result = new Divide(firstNumber: $firstNumber, secondNumber: $secondNumber);
-        break;
-    default:
-        $result = null;
-}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
